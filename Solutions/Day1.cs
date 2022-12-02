@@ -1,29 +1,43 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Metrics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using System.Reflection;
 
-int counter = 0;
-List<int> weights = new List<int>();
-
-string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Inputs\input01.txt");
-string[] lines = File.ReadAllLines(path);
-
-
-foreach (string line in lines)
+namespace AdventOfCode2022.Solutions
 {
-    if (string.IsNullOrEmpty(line))
+    class Day1
     {
-        weights.Add(counter);
-        counter = 0;
-    }
-    else
-    {
-        counter += int.Parse(line);
-    }
+        public void calculateCalories(string[] lines)
+        {
+            int counter = 0;
+            List<int> weights = new List<int>();
 
+            foreach (string line in lines)
+            {
+                if (string.IsNullOrEmpty(line))
+                {
+                    weights.Add(counter);
+                    counter = 0;
+                }
+                else
+                {
+                    counter += int.Parse(line);
+                }
+
+            }
+            weights.Sort();
+
+            int mostCalories = weights.Last();
+
+            Console.WriteLine("The elf carrying most calories: {0}", mostCalories);
+            Console.WriteLine("The three with most calories: {0}", mostCalories + weights[weights.Count - 2] + weights[weights.Count - 3]);
+
+        }
+
+    }
 }
-weights.Sort();
-
-int mostCalories = weights.Last();
-
-Console.WriteLine("The elf carrying most calories: {0}", mostCalories);
-Console.WriteLine("The three with most calories: {0}", mostCalories + weights[weights.Count - 2] + weights[weights.Count - 3]);
